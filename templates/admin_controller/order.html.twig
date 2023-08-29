@@ -1,0 +1,123 @@
+{% extends 'core/base.html.twig' %}
+{% form_theme orderForm 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+
+	{{ form_start(orderForm) }}
+	{# {{ form_start(orderForm, {'attr': {'action': path('app_admin_order_submit')}}) }} #}
+	<div class="card p-3 justify-content-center">
+		<div class="card-title d-flex justify-content-between">
+			<h4>Order #{{ "%04d"|format(order.idOrder) }}</h4>
+			<h3>{{ form_row(orderForm.state, { 'attr' : { 'onChange' : 'selectionChanged(this.value)' }}) }}</h3>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card-body">
+					<div class="shadow-lg">
+						<div style="display: block;">
+							<div class="row bg-transparent p-2">
+								<div class="col-lg-5">
+									<div class="card p-3">
+										<span class="d-flex justify-content-between">
+											<h5 class="summary-title"># Commande</h5>
+											<p>{{ order.idOrder }}</p>
+										</span>
+										<span class="d-flex justify-content-between">
+											<h5 class="summary-title">Number Of Items</h5>
+											<p>{{ order.getNbItems() }}
+												Items</p>
+										</span>
+										<span class="d-flex justify-content-between">
+											<h5 class="summary-title">Order Date</h5>
+											<p>{{order.orderDate|date("Y-m-d h:i:s")}}</p>
+										</span>
+										<span class="d-flex justify-content-between">
+											<h5 class="summary-title">Delivery Date</h5>
+											<p>NA</p>
+										</span>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="card p-3">
+										<span class="d-flex justify-content-between">
+											<h5 class="summary-title">Sub-Total</h5>
+											<p>
+												{{ order.getSubtotal()|number_format(2, '.', ' ')}}
+												$</p>
+										</span>
+										<span class=" d-flex justify-content-between">
+											<h5 class="summary-title">Delivery Fee</h5>
+											<p>{{ order.shippingFee|number_format(2, '.', ' ') }}
+												$</p>
+										</span>
+										<span class="d-flex justify-content-between">
+											<h5 class="summary-title">Total<small>
+													(With Taxes)</small>
+											</h5>
+											<p>{{ order.getTotalWithTaxes()|number_format(2, '.', ' ') }}
+												$</p>
+										</span>
+									</div>
+								</div>
+								<div class="col-lg-3">
+									<div class="card p-3">
+										<h5 class="summary-title">Delivery Address</h5>
+										<div>
+											<span class="d-flex justify-content-between">
+												<strong>{{ order.user.firstName|capitalize }}
+													{{ order.user.lastName|capitalize }}</strong>
+											</span>
+											<span class="d-flex justify-content-between">{{ order.user.address|capitalize }}</span>
+											<span class="d-flex justify-content-between">{{ order.user.city|capitalize }},
+												{{ order.user.province|capitalize }}
+												{{ order.user.postalCode|upper }}</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="table-scroll m-2">
+										<table class="table table-hover table-list">
+											<thead class="card-table card-thead">
+												<tr>
+													<th scope="col" class="table-title text-center">Product</th>
+													<th scope="col" class="table-title text-center">Name</th>
+													<th scope="col" class="table-title text-center">Unit Price</th>
+													<th scope="col" class="table-title text-center">Quantity</th>
+													<th scope="col" class="table-title text-center">Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for key, purchase in order.purchase %}
+													<tr>
+														<td class="text-center card-table-data"><img src="{{asset_if(purchase.product.imagePath,'images/products/non-disponible.svg')}}" class="img-fluid product-img" style="width: 86px;"/></td>
+														<td class="text-center card-table-data">{{purchase.product.nom}}</td>
+														<td class="text-center card-table-data">{{purchase.product.prix}}
+															$</td>
+														<td class="text-center card-table-data">{{purchase.quantity}}</td>
+														<td class="text-center card-table-data">{{purchase.getTotal()}}
+															$
+														</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ form_end(orderForm) }}
+	{% block styles %}
+		<link rel="stylesheet" href="{{ asset('styles/order.css') }}">
+	{% endblock %}
+
+
+	{% block javascripts %}
+		<script defer src="{{ asset('scripts/admin.order.js') }}"></script>
+	{% endblock %}
+
+{% endblock %}

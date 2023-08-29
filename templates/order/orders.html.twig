@@ -1,0 +1,45 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+
+	{% if orders > 0 %}
+
+		<div class="row justify-content-center">
+			<div class="col-9">
+				<table class="table table-hover table-list">
+					<thead class="cart-table">
+						<tr>
+							<th scope="col" class="table-title text-center">#</th>
+							<th scope="col" class="table-title text-center">Date</th>
+							<th scope="col" class="table-title text-center">Total</th>
+							<th scope="col" class="table-title text-center">State</th>
+							<th scope="col" class="table-title text-center">Details</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in orders %}
+							<tr>
+								<td class="text-center cart-table-data">{{ order.idOrder }}</td>
+								<td class="text-center cart-table-data">{{ order.orderDate|date("Y-m-d h:i:s") }}</td>
+								<td class="text-center cart-table-data">{{ order.getTotal() }}
+									$</td>
+								<td class="text-center cart-table-data">{{ order.state.value }}</td>
+								<td class="text-center cart-table-data">
+									<a href="{{ path("app_order_details", {idOrder:order.idOrder}) }}">
+										<i class="fa-solid fa-eye"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		{% else %}
+
+	{% endif %}
+
+	{% block styles %}
+		<link rel="stylesheet" href="{{ asset('styles/order.css') }}">
+	{% endblock %}
+{% endblock %}

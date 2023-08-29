@@ -1,0 +1,152 @@
+{% extends "core/base.html.twig" %}
+
+{% block body %}
+	<div class="row">
+
+		<div class="col-9">
+
+			<div class="border rounded-4 shadow-lg p-3">
+				<h2>Cart</h1>
+				<hr>
+
+				{% if cart.purchases|length > 0 %}
+
+					{% for flash in app.flashes('cart') %}
+						<div class="alert {{ flash.color }}">{{ flash.content }}</div>
+					{% endfor %}
+
+					<table class="table table-hover table-list">
+						<thead class="cart-table">
+							<tr>
+								<th scope="col" class="table-title text-center">Product</th>
+								<th scope="col" class="table-title text-center">Name</th>
+								<th scope="col" class="table-title text-center">Unit Price</th>
+								<th scope="col" class="table-title text-center">Quantity</th>
+								<th scope="col" class="table-title text-center">Total</th>
+								<th scope="col" class="table-title text-center">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<form action="{{ path('update_cart') }}" method="POST">
+								{% for key, purchase in cart.purchases %}
+									<tr>
+										<td class="text-center cart-table-data"><img src="{{asset_if(purchase.product.imagePath,'images/products/non-disponible.svg')}}" class="img-fluid product-img"/></td>
+										<td class="text-center cart-table-data">{{purchase.product.nom}}</td>
+										<td class="text-center cart-table-data">{{purchase.product.prix}}
+											$</td>
+										<td class="text-center cart-table-data"><input name="{{ 'inputPurchaseQuantity[' ~ key ~ ']' }}" value="{{purchase.quantity}}" class="text-center product-quantity-input" type="number" min="0"></td>
+										<td class="text-center cart-table-data">{{purchase.quantity * purchase.product.prix}}
+											$
+										</td>
+										<td class="text-center cart-table-data">
+											<a href="{{path('app_detail_produit', { idProduit: purchase.product.idProduit })}}" class="seeDetails">
+												<i class="fa-solid fa-circle-info fa-xl mx-2"></i>
+											</a>
+											<a href="{{ path('app_cart_delete_one', { index:key}) }}" class="text-danger">
+												<i class="fa-solid fa-trash fa-xl mx-2"></i>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</tbody>
+					</table>
+					<div class="d-flex flex-row justify-content-md-center my-2">
+						<button name="action" value="update" type="submit" class="btn btn-success col-4 mx-3 form-btn">
+							<i class="fas fa-arrows-rotate"></i>
+							Update</button>
+						<button name="action" value="empty" type="submit" class="btn btn-danger col-4 mx-3 form-btn">
+							<i class="fas fa-trash"></i>
+							Clear</button>
+					</div>
+				</form>
+			{% else %}
+				<div class="alert alert-info text-center fs-5">Your cart is empty</div>
+			{% endif %}
+
+		</div>
+
+	</div>
+
+	<div class="col-3 border rounded-4 shadow-lg p-3 summary-menu">
+		<div class="row">
+			<h4 class="fs-3 text-start">Summary</h4>
+			<hr>
+
+			<div class="container">
+
+				<div class="row">
+					<div class="col">
+						<span class="summary-title order-0">Subtotal</span>
+					</div>
+					<div class="col order-1 text-center">
+						<span class="summary-title">{{"%.2f"|format(subtotal)}}
+							$</span><br>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col">
+						<span class="summary-title order-0">TPS</span>
+					</div>
+					<div class="col order-1 text-center">
+						<span class="summary-title">{{"%.2f"|format(tps)}}
+							$</span><br>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col">
+						<span class="summary-title order-0">TVQ</span>
+					</div>
+					<div class="col order-1 text-center">
+						<span class="summary-title">{{"%.2f"|format(tvq)}}
+							$</span><br>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col">
+						<span class="summary-title order-0">Shipping Cost</span>
+					</div>
+					<div class="col order-1 text-center">
+						<span class="summary-title">{{"%.2f"|format(shippingCost)}}
+							$</span><br>
+					</div>
+				</div>
+
+				<hr>
+
+				{% if shippingCost > 0 %}
+					<div class="text-center">
+						<a class="btn btn-success summary-order-btn" href="{{ path("app_order_review") }}">Order |
+							{{"%.2f"|format(total)}}
+							$</a>
+					</div>
+				{% endif %}
+			</div>
+
+		</div>
+	</div>
+
+	{# Modal #}
+	<div class="modal modal-xl" tabindex="-1" id="produit-modal">
+		<div class="modal-dialog">
+			<div id="produit-modal-content" class="modal-content"></div>
+		</div>
+	</div>
+
+	{% block styles %}
+		<link rel="stylesheet" href="{{ asset('styles/cart.css') }}">
+	{% endblock %}
+
+	{% block javascripts %}
+		<script src="{{ asset('scripts/catalogue.js') }}"></script>
+	{% endblock %}
+{% endblock %}

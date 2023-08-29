@@ -1,0 +1,158 @@
+{#
+    <nav class="navbar navbar-expand-lg navbar-light p-3 flex-column text-center">
+        <div class="text-center mb-2 bh">
+            <img src="{{ asset('images/icons/logo_name.svg') }}" width="336"
+                class="border-bottom border-dark">
+            <div id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto px-5">
+                    <li class="nav-item active">
+                        <a class="nav-link disabled" href="#"><i class="fa-solid fa-house px-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=" {{ path("app_catalogue") }} "><i class="fa-solid fa-book-open px-2"></i></i>Catalogue</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('about_page') }}"><i class="fa-solid fa-circle-info px-2"></i>About<span
+                                class="sr-only"></span></a>
+                    </li>
+                </ul>
+            </div>
+    
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto px-5">
+                    <li class="nav-item active bg-white rounded-circle border mx-1">
+                        <a class="nav-link" href="#"><i class="fa-solid fa-user px-2"></i></a>
+                    </li>
+                    <li class="nav-item active bg-white rounded-circle border mx-1">
+                        <a class="nav-link" href="#"><i class="fa-sharp fa-solid fa-cart-shopping px-2"></i></a>
+                    </li>
+                </ul>
+            </div>
+    
+            <!--  Search Bar   -->
+            <form class="form-inline my-2 my-lg-0 d-flex border-top py-2" method="POST" action="{{ app.request.uri }}">
+                <input name="search_field" class="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-sm-0 m-2" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    
+    #}
+
+
+<nav class="navbar navbar-expand-md">
+	<div
+		class="container-fluid">
+
+		{# Left #}
+		<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+			{% if app.user != null %}
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item active bg-white mx-1">
+						<a class="m-2" href="{{ path('app_logout') }}">
+							<i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+					</li>
+				</ul>
+			{% endif %}
+		</div>
+
+		{# Center #}
+		<div class="mx-auto order-0">
+
+			<div class="text-center mb-2 bh">
+				<img src="{{ asset('images/icons/logo_name.svg') }}" width="336" class="border-bottom border-dark">
+				<div id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto px-5">
+						<li class="nav-item active">
+							<a class="nav-link disabled" href="#">
+								<i class="fa-solid fa-house px-2"></i>Home</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href=" {{ path('app_catalogue') }} ">
+								<i class="fa-solid fa-book-open px-2"></i>Catalog</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('about_page') }}">
+								<i class="fa-solid fa-circle-info px-2"></i>About<span class="sr-only"></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<!--  Search Bar   -->
+				<form class="form-inline my-2 my-lg-0 d-flex border-top py-2" method="POST" action="{{ app.request.uri }}">
+					<input name="search_field" class="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-sm-0 m-2" type="submit">Search</button>
+				</form>
+			</div>
+
+		</div>
+
+		{# Right #}
+		<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+			<ul class="navbar-nav ms-auto" style="margin-right: 10px;">
+
+				{% if is_granted("ROLE_ADMIN") %}
+					<li class="nav-item active bg-white mx-1">
+						<div class="dropdown">
+
+							<a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								Administration
+							</a>
+
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li>
+									<a class="dropdown-item" href="{{ path('app_admin_categories') }}">Categories</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_admin_products') }}">Products</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_admin_orders') }}">Commands</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				{% endif %}
+
+				<li class="nav-item active bg-white mx-1">
+					<div class="dropdown">
+
+						<a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+							My Account
+						</a>
+
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_authentication') }}">My Profile</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_orders') }}">My Orders</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+
+				<li class="nav-item active bg-white">
+					<a class="nav-link" href="{{ path('app_authentication') }}">
+						{% if app.user == null %}
+							<i class="fa-solid fa-user px-2"></i>Account
+						{% else %}
+							<i class="fa-solid fa-user px-2"></i>
+							{{ app.user.firstName|capitalize }}
+							{{ app.user.lastName|capitalize }}
+						{% endif %}
+					</a>
+				</li>
+				<li class="nav-item active bg-white mx-1">
+					<a class="nav-link" href="{{ path('app_cart') }}">
+						<i class="fa-sharp fa-solid fa-cart-shopping px-2"></i>
+						{#Cart<br>#}
+						Total
+						<span class="fw-bold">0,00$</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

@@ -1,0 +1,119 @@
+{% extends "core/base.html.twig" %}
+
+{% block body %}
+
+	<div class="py-3">
+		<div class="container">
+			<div class="row">
+
+
+				<div class="border rounded-3 col-3 text-center shadow-lg p-3" style="height: 350px;">
+					<ul class="list-unstyled">
+						<p>
+							<h5>General</h5>
+							<hr>
+							{% for categorie in categories %}
+								<li class="mb-2 list-group-item">
+									<a href="{{ path('app_catalogue', { categorie: categorie.idCategorie }) }}" class="text-decoration-none text-reset">{{ categorie.categorie }}
+										-
+																				                            ({{categorie.getProduits() | length}})</a>
+								</li>
+							{% endfor %}
+						</p>
+						{# <h5>General</h5>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Classic Watches - (0)</a></li>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Luxury Watches - (0)</a></li>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Racing Watches - (0)</a></li>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Professional Watches - (0)</a></li> #}
+						{# <p>
+												                    <h5>Genders</h5>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Men's Watches - (0)</a></li>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Women's Watches - (0)</a></li>
+												                </p>
+												                <p>
+												                    <h5>Materials</h5>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Steel - (0)</a></li>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Gold - (0)</a></li>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Gem-Set - (0)</a></li>
+												                    <li class="mb-2 list-group-item"><a href="#" class="text-decoration-none text-reset">Steel & Gold - (0)</a></li>
+												                </p> #}
+					</ul>
+					<a class="btn btn-secondary" href="{{ path('app_catalogue') }}">
+						<i class="far fa-trash-alt"></i>
+						<span>Reset</span>
+					</a>
+					{# <form action="{{ path('app_catalogue') }}">
+										                    <button class="btn btn-secondary" type="submit">
+										                        <i class="far fa-trash-alt"></i> <span>Reset</span>
+										                    </button>
+										                </form> #}
+				</div>
+
+				<div class="col-9">
+					<div class="row">
+						{% if produits|length > 0 %}
+							{% for produit in produits %}
+
+								<div class="col-md-8 col-lg-6 col-xl-4 mb-2">
+									<div class="card" style="border-radius: 15px;">
+										<div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
+											<img src="{{asset_if(produit.imagePath,'images/products/non-disponible.svg')}}" style="border-radius: 15px; border-top-right-radius: 15px;" class="img-fluid product-img"/>
+										</div>
+
+										<div class="card-body pb-0">
+											<div class="d-flex justify-content-between">
+												<div>
+													<p>
+														<a href="{{path('app_detail_produit', { idProduit: produit.idProduit })}}" class="text-dark bold-text text-decoration-none text-reset align-content-center seeDetails">{{produit.nom | upper}}</a>
+													</p>
+													<div class="d-flex justify-content-between">
+														<p>{{produit.prix}}$</p>
+													</div>
+													<p class="small text-muted"></p>
+												</div>
+											</div>
+										</div>
+										<hr class="my-0">
+										<div class="p-2 text-center">
+											<a
+												class="btn btn-outline-secondary fw-light btnDetails text-decoration-none" href="{{path('app_detail_produit', { idProduit: produit.idProduit })}}">
+												{# <button id="btnDetails" class="btn btn-outline-secondary fw-light"
+																								                                        value="{{path('app_detail_produit', { idProduit: produit.idProduit })}}">Details</button> #}
+												Details
+											</a>
+											{# <a href="{{ path('app_cart_add_product',{idProduct:produit.idProduit}) }}"> #}
+											<a class="btn btn-success" href="{{ path('app_cart_add_product', {idProduct:produit.idProduit}) }}">Add To Cart</a>
+											{# </a> #}
+										</div>
+									</div>
+								</div>
+
+							{% endfor %}
+						{% else %}
+							<div class="border shadow col-5 m-2 text-center rounded" style="height: 40px;">
+								<p class="text-danger p-1">No product matches your search criteria.</p>
+							</div>
+						{% endif %}
+
+						{# Modal #}
+						<div class="modal modal-xl" tabindex="-1" id="produit-modal">
+							<div class="modal-dialog">
+								<div id="produit-modal-content" class="modal-content"></div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		{% block javascripts %}
+			<script src="{{ asset('scripts/catalogue.js') }}"></script>
+		{% endblock %}
+
+		{% block styles %}
+			<link rel="stylesheet" href="{{ asset('styles/catalogue.css') }}">
+		{% endblock %}
+
+	{% endblock %}

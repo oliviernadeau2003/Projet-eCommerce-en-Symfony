@@ -1,0 +1,113 @@
+{% extends 'core/base.html.twig' %}
+{% form_theme updateInfoForm 'bootstrap_5_layout.html.twig' %}
+{% form_theme changePasswordForm 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-8 mx-auto">
+			<h3>Account Information</h3><hr>
+			<div class="p-3">
+				<div class="col-12">
+					{% for flash in app.flashes('profileNotification')%}
+						<div class="alert my-3 {{ flash.color }}">{{ flash.content }}</div>
+					{% endfor %}
+
+					<label>Email</label>
+					<input type="email" style="color: gray;" disabled="disabled" class="form-control" value="{{ app.user.email }}">
+					{{ form_start(updateInfoForm, {'attr': {'class': 'needs-validation-register', 'novalidate': 'novalidate' }}) }}
+
+					<div class="row">
+						<div class="col-6">
+							{{ form_row(updateInfoForm.firstName) }}
+						</div>
+						<div class="col-6">
+							{{ form_row(updateInfoForm.lastName) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-6">
+							{{ form_row(updateInfoForm.address) }}
+						</div>
+						<div class="col-6">
+							{{ form_row(updateInfoForm.city) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4">
+							{{ form_row(updateInfoForm.postalCode, {'attr': {'class': 'txtPostalCode'}}) }}
+						</div>
+						<div class="col-4">
+							{{ form_row(updateInfoForm.province) }}
+						</div>
+						<div class="col-4">
+							{{ form_row(updateInfoForm.phone, {'attr': {'class': 'txtPhone'}}) }}
+						</div>
+					</div>
+					<div class="d-flex justify-content-center">
+						{{ form_row(updateInfoForm.updatebtn) }}
+					</div>
+					{{ form_end(updateInfoForm) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-8 mx-auto">
+			<h3>Changing Your Password</h3><hr>
+			{% for flash in app.flashes('updatePasswordNotification')%}
+				<div class="alert my-3 {{ flash.color }}">{{ flash.content }}</div>
+			{% endfor %}
+			<div class="d-flex justify-content-center">
+
+				{{ form_start(changePasswordForm, {'attr': {'class': 'needs-validation-register', 'novalidate': 'novalidate' }}) }}
+
+				<div class="row">
+					{{ form_row(changePasswordForm.password) }}
+				</div>
+				<div class="row">
+					{{ form_row(changePasswordForm.newPassword) }}
+				</div>
+				<div class="d-flex justify-content-center">
+					{{ form_row(changePasswordForm.updatebtn) }}
+				</div>
+				{{ form_end(changePasswordForm) }}
+
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block javascripts %}
+		<script defer src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js"></script>
+		<script defer src="{{ asset('scripts/formValidation_mask.js')}}"></script>
+	{% endblock %}
+
+
+	{# <div class="p-3 col-8">
+																		<form method="POST" class="needs-validation-register" novalidate="novalidate">
+																			<div>
+																				<div class="mb-3">
+																					<label class="form-label required">Password</label>
+																					<input name="txtPassword" type="password" required="required" class="form-control">
+																				</div>
+																			</div>
+																			<div>
+																				<div class="mb-3">
+																					<label class="form-label required">New Password</label>
+																					<input name="txtNewPassword1" type="password" required="required" class="password-field form-control">
+																				</div>
+																				<div class="mb-3">
+																					<label class="form-label required">Confirm Password</label>
+																					<input name="txtNewPassword2" type="password" required="required" class="password-field form-control">
+																				</div>
+																			</div>
+																			<div class="d-flex justify-content-center">
+																				<div class="form-button">
+																					<button type="submit" class="btn btn-primary">Update Your Password</button>
+																				</div>
+																			</div>
+																
+																			<input type="hidden" name="_target_path" value="{{ path('app_profile') }}">
+																			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+																
+																		</form>
+																	</div> #}

@@ -1,0 +1,37 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>Products</h1><hr>
+
+		<div class="row justify-content-around">
+			<a class="btn btn-success my-2 col-3" href="{{ path("app_admin_new_product") }}">Add A Product</a>
+		</div>
+
+		<table class="table table-hover table-list">
+			<thead class="cart-table">
+				<tr>
+					<th scope="col" class="table-title text-center">Product</th>
+					<th scope="col" class="table-title text-center">Name</th>
+					<th scope="col" class="table-title text-center">Unit Price</th>
+					<th scope="col" class="table-title text-center">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in products %}
+					<tr>
+						<td class="text-center cart-table-data">{{product.idProduit}}</td>
+						<td class="text-center cart-table-data">{{product.nom}}</td>
+						<td class="text-center cart-table-data">{{product.prix|number_format(0, '.', ' ')}}$</td>
+						<td class="text-center cart-table-data">
+							<a href="{{ path('app_admin_product', { idProduct:product.idProduit } ) }}">
+								<i class="fas fa-pen-to-square"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
+{% endblock %}

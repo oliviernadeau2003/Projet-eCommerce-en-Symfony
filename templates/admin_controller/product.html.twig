@@ -1,0 +1,15 @@
+{% extends 'core/base.html.twig' %}
+{% form_theme productForm 'bootstrap_5_layout.html.twig' %}
+
+
+{% block body %}
+	<h1>Product #{{ "%04d"|format(product.idProduit) }}</h1><hr>
+
+	<div class="container">
+		<div class="row col-10">
+			<div class="justify-content-center">
+				{{ form(productForm)}}
+				</div>
+			</div>
+		</div>
+	{% endblock %}

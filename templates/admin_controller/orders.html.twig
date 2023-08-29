@@ -1,0 +1,36 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>Orders</h1><hr>
+
+		<table class="table table-hover table-list">
+			<thead class="cart-table">
+				<tr>
+					<th scope="col" class="table-title text-center">Order</th>
+					<th scope="col" class="table-title text-center">Name</th>
+					<th scope="col" class="table-title text-center">Date</th>
+					<th scope="col" class="table-title text-center">State</th>
+					<th scope="col" class="table-title text-center">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in orders %}
+					<tr>
+						<td class="text-center cart-table-data">{{order.idOrder}}</td>
+						<td class="text-center cart-table-data">{{order.user.firstName}}
+							{{order.user.lastName}}</td>
+						<td class="text-center cart-table-data">{{order.orderDate|date("Y-m-d h:i:s")}}</td>
+						<td class="text-center cart-table-data">{{order.state.value}}</td>
+						<td class="text-center cart-table-data">
+							<a href="{{ path('app_admin_order', { idOrder:order.idOrder } ) }}">
+								<i class="fas fa-pen-to-square"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
+{% endblock %}

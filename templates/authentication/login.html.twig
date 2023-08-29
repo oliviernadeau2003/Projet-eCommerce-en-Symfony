@@ -1,0 +1,42 @@
+{% extends 'core/base.html.twig' %}
+
+{% block body %}
+	{# {{dump(app.user)}} #}
+
+	<div class="row bg-light">
+		<div
+			class="col-6 mx-auto border px-5 pb-5 rounded shadow">
+			{# <div class="alert alert-info text-center fs-5 mt-3">Salut Yannick, j'ai pas encore réussi à faire fonctionner mes relations donc la sauvegard en bd ne fonctionne pas. j'ai donc fait un user test@test.com : 123456 avec des commandes pour que tu puisse quand même corriger :)</div> #}
+			<h2 class="mt-5 d-flex justify-content-center">Login</h2>
+			{% if notification %}
+				<div class="alert {{ notification.color }}">{{ notification.content }}</div>
+			{% endif %}
+			<form action="{{ path('app_login') }}" method="POST">
+				<div class="form-outline mb-4">
+					<label class="form-label" for="uername">Email</label>
+					<input class="form-control" type="email" id="username" name="_username" autofocus>
+				</div>
+
+				<div class="form-outline mb-4">
+					<label class="form-label" for="password">Password</label>
+					<input class="form-control" type="password" id="password" name="_password">
+				</div>
+
+				{# Redirection #}
+				<input
+				type="hidden" name="_target_path" value="{{ path('app_profile') }}">
+
+				{# CSRF Token #}
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+				<div class="d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary px-5 w-100" style="font-size: 18px;">Login</button>
+				</div>
+			</form>
+			<p class="d-flex justify-content-center m-2">Still No Account?&nbsp
+				<a href="{{ path('app_registration') }}">
+					Click Here!</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "core/base.html.twig" %}
+
+{% block body %}
+    
+    <div class="p-2 bg-light border shadow rounded-3 container">
+        <div class= "row">
+
+            <div class="m-2 p-1 col-6">
+                <div class="mapouter border shadow-lg rounded-3">
+                    <div class="gmap_canvas"><iframe width="500" height="500" id="gmap_canvas"
+                            src="https://maps.google.com/maps?q=Cegep%20saint-j%C3%A9rome&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                            frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                        <style>
+                            .mapouter {
+                                position: relative;
+                                text-align: right;
+                                height: 500px;
+                                width: 500px;
+                            }
+                        </style><a href="https://www.embedgooglemap.net"></a>
+                        <style>
+                            .gmap_canvas {
+                                overflow: hidden;
+                                background: none !important;
+                                height: 500px;
+                                width: 500px;
+                            }
+                        </style>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-5 mt-5 align-content-center">
+                <div class="my-3">
+                    <div class="p-2 border shadow rounded-3">
+                        <p class="text-center"><span class="fw-bold">Found Us !</span><br>
+                        <a href="http://maps.google.com/?q=455 rue Fournier, Saint-Jérôme" target="_blank">455 rue Fournier, Saint-Jérôme (Québec) J7Y 4V2</a></p>
+                    </div>
+                </div>
+
+                <div class="my-3">
+                    <div class="p-2 border shadow rounded-3 align-content-center">
+                        <p class="text-center"><span class="fw-bold">Contact Us !</span><br>Email: <a href="mailto:WristLuxury@gmail.com">WristLuxury@gmail.com</a>
+                        <br>Phone: <a href="tel:45062284875">450 6228 4875</a></p>
+                    </div>
+                </div>
+
+                <div class="my-3">
+                    <div class="p-2 border shadow rounded-3 align-content-center">
+                        <p class="text-center"><span class="fw-bold text-decoration-underline">Important !</span><br>This site is no functionnal and purely educational.<br>No products can be purchased.
+                        <br><br>Sources: <a href="https://www.rolex.com/" target="_blank">https://www.rolex.com/</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>    
+
+{% endblock %}

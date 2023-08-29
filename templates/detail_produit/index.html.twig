@@ -1,0 +1,38 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ produit.nom | upper}}</h3>
+	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body row">
+
+	<div class="col-6">
+		<img src="{{asset_if(produit.imagePath,'images/products/non-disponible.svg')}}" style="border-radius: 15px"class="img-fluid border "/>
+	</div>
+	<div class="col-6">
+		<div class="border-bottom mb-3">
+			<h3>{{ produit.nom }}</h3>
+			<h5 class="fst-italic">{{ produit.categorie.categorie }}</h5>
+			{# <blockquote class="blockquote">			// Quote ?
+    		<p>"The Realization Of An Ideal"</p>
+	  		</blockquote> #}
+		</div>
+
+		<p class="text-justify fs-5">{{ produit.description }}</p>
+		
+		<div class="border-top mt-3">
+			<p class="fw-bold text-right fs-5">Price: {{ produit.prix }}$</p>
+		</div>
+
+		<div class="mt-2">
+			<p class="fw-bold text-right fs-5">In Stock: {{ produit.quantiteEnStock }}</p>
+		</div>
+	</div>
+
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <a class="btn btn-success" href="{{ path('app_cart_add_product', {idProduct:produit.idProduit}) }}">Add To Cart</a>
+</div>
+
+    {% block styles %}
+        <link rel="stylesheet" href="{{ asset('styles/catalogue-details.css') }}">
+    {% endblock %}
